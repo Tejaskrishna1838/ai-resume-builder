@@ -1,0 +1,6 @@
+streamlit
+requests
+openai
+pdfkit
+jinja2
+python-dotenv
