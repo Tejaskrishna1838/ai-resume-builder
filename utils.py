@@ -1,13 +1,13 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Configure Gemini API Key from Streamlit secrets
+# ✅ Configure Gemini API Key from Streamlit secrets
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# Load the Gemini Pro model
-model = genai.GenerativeModel("gemini-pro")
+# ✅ Use the FREE and fast Gemini model
+model = genai.GenerativeModel("gemini-1.5-flash")
 
-# Function to query Gemini
+# ✅ Query Gemini AI for suggestions
 def query_gemini(prompt):
     try:
         response = model.generate_content(prompt)
@@ -15,7 +15,7 @@ def query_gemini(prompt):
     except Exception as e:
         return f"❌ Gemini Error: {e}"
 
-# Initialize session state for resume data and ATS result
+# ✅ Store user data and results in session
 def init_session():
     if "resume_data" not in st.session_state:
         st.session_state.resume_data = {
