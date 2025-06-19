@@ -1,11 +1,11 @@
 import streamlit as st
 import requests
 
-# ✅ Securely load your OpenRouter API key from Streamlit secrets
+# ✅ Securely load your OpenRouter API key from secrets.toml
 API_KEY = st.secrets["API_KEY"]
 MODEL_ID = "deepseek/deepseek-chat-v3-0324:free"
 
-# ✅ Function to query DeepSeek API with prompt
+# ✅ Function to call DeepSeek AI model via OpenRouter
 def query_deepseek(prompt):
     headers = {
         "Authorization": f"Bearer {API_KEY}",
@@ -14,9 +14,7 @@ def query_deepseek(prompt):
 
     payload = {
         "model": MODEL_ID,
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
+        "messages": [{"role": "user", "content": prompt}]
     }
 
     try:
@@ -32,7 +30,7 @@ def query_deepseek(prompt):
     except Exception as e:
         return f"❌ Exception: {e}"
 
-# ✅ Session state initialization for resume form
+# ✅ Session initialization for resume data and ATS logic
 def init_session():
     if "resume_data" not in st.session_state:
         st.session_state.resume_data = {
