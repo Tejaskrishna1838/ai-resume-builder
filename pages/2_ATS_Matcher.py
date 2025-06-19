@@ -1,54 +1,36 @@
 import streamlit as st
-from utils import query_deepseek, init_session
+from utils import query_gemini, init_session
 
 st.set_page_config(page_title="ATS Matcher", layout="centered")
-
-# Load custom CSS
-with open("styles.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-# Initialize session
 init_session()
-resume = st.session_state.resume_data
 
 st.title("ATS Matcher")
-st.markdown("Paste a job description and compare it with your resume to get match score and improvement tips.")
+st.write("Paste the job description below and click Match to analyze your resume.")
 
-with st.form("ats_form"):
-    st.subheader("Job Description")
-    job_description = st.text_area("Paste the full job description below", height=200)
+job_description = st.text_area("Job Description", value=st.session_state.job_description)
 
-    submitted = st.form_submit_button("Analyze Match")
-    if submitted:
-        if not job_description.strip():
-            st.warning("Please enter a valid job description.")
-        elif not resume or not resume.get("experience"):
-            st.warning("Please fill out your resume on the Resume Builder page first.")
-        else:
-            with st.spinner("Matching resume to job description..."):
-                resume_text = f"""
-Name: {resume['name']}
-Email: {resume['email']}
-Education: {resume['education']}
-Experience: {resume['experience']}
-Projects: {resume['projects']}
-Skills: {resume['skills']}
-Certifications: {resume['certifications']}
-"""
+if st.button("Match with Resume"):
+    with st.spinner("Analyzing your resume against the job description..."):
+        summary = f"""Name: {st.session_state.resume_data['name']}
+Email: {st.session_state.resume_data['email']}
+Education: {st.session_state.resume_data['education']}
+Experience: {st.session_state.resume_data['experience']}
+Projects: {st.session_state.resume_data['projects']}
+Skills: {st.session_state.resume_data['skills']}"""
 
-                prompt = f"""
-Compare the resume below to the job description. 
-Give an ATS score out of 100 and provide improvement suggestions:
+        prompt = f"""Score this resume against the job description. 
+Provide ATS match score (out of 100) and improvement suggestions.
 
 Resume:
-{resume_text}
+{summary}
 
 Job Description:
 {job_description}
 """
 
-                feedback = query_deepseek(prompt)
+        ats_result = query_gemini(prompt)
+        st.session_state.ats_result = ats_result
 
-            st.markdown("---")
-            st.subheader("Match Feedback")
-            st.code(feedback, language="markdown")
+if st.session_state.ats_result:
+    st.subheader("ATS Match Result")
+    st.write(st.session_state.ats_result)

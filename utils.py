@@ -1,36 +1,21 @@
 import streamlit as st
-import requests
+import google.generativeai as genai
 
-# ✅ Securely load your OpenRouter API key from secrets.toml
-API_KEY = st.secrets["API_KEY"]
-MODEL_ID = "deepseek/deepseek-chat-v3-0324:free"
+# Configure Gemini API Key from Streamlit secrets
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# ✅ Function to call DeepSeek AI model via OpenRouter
-def query_deepseek(prompt):
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
-    }
+# Load the Gemini Pro model
+model = genai.GenerativeModel("gemini-pro")
 
-    payload = {
-        "model": MODEL_ID,
-        "messages": [{"role": "user", "content": prompt}]
-    }
-
+# Function to query Gemini
+def query_gemini(prompt):
     try:
-        response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload)
-        data = response.json()
-
-        if response.status_code == 200 and "choices" in data:
-            return data["choices"][0]["message"]["content"]
-        elif "error" in data:
-            return f"❌ API Error: {data['error'].get('message', 'Unknown error')}"
-        else:
-            return f"❌ Unexpected API Response: {response.text}"
+        response = model.generate_content(prompt)
+        return response.text
     except Exception as e:
-        return f"❌ Exception: {e}"
+        return f"❌ Gemini Error: {e}"
 
-# ✅ Session initialization for resume data and ATS logic
+# Initialize session state for resume data and ATS result
 def init_session():
     if "resume_data" not in st.session_state:
         st.session_state.resume_data = {
@@ -48,4 +33,3 @@ def init_session():
 
     if "ats_result" not in st.session_state:
         st.session_state.ats_result = ""
-
