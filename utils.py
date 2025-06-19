@@ -1,11 +1,11 @@
 import streamlit as st
 import requests
 
-# ✅ Load your API key securely from secrets.toml
+# ✅ Load API key securely from secrets.toml or Streamlit Cloud secrets
 API_KEY = st.secrets["API_KEY"]
 MODEL_ID = "deepseek/deepseek-chat-v3-0324:free"
 
-# ✅ Function to get AI suggestions safely
+# ✅ Function to query DeepSeek AI via OpenRouter
 def query_deepseek(prompt):
     headers = {
         "Authorization": f"Bearer {API_KEY}",
@@ -26,11 +26,11 @@ def query_deepseek(prompt):
         elif "error" in data:
             return f"❌ API Error: {data['error'].get('message', 'Unknown error')}"
         else:
-            return "❌ Unexpected response from API. Please check your prompt or model ID."
+            return "❌ Unexpected API response."
     except Exception as e:
         return f"❌ Exception occurred: {e}"
 
-# ✅ Initialize Streamlit session state
+# ✅ Streamlit session storage initialization
 def init_session():
     if "resume_data" not in st.session_state:
         st.session_state.resume_data = {
@@ -48,4 +48,3 @@ def init_session():
 
     if "ats_result" not in st.session_state:
         st.session_state.ats_result = ""
-
