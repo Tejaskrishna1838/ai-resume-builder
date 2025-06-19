@@ -1,0 +1,103 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* Global Styles */
+body {
+  background-color: #0d1117;
+  color: #ffffff;
+  font-family: 'Poppins', 'JetBrains Mono', sans-serif;
+}
+
+/* Streamlit Title / Headings */
+h1, h2, h3 {
+  font-weight: 600;
+  color: #f0f6fc;
+}
+
+/* Label Styling */
+label {
+  font-weight: 500 !important;
+  color: #c9d1d9 !important;
+  font-size: 16px !important;
+  margin-bottom: 5px;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+  background-color: #161b22;
+  color: #c9d1d9;
+  border-right: 1px solid #30363d;
+}
+
+section.main > div {
+  padding: 2rem;
+}
+
+/* Card Container */
+.card {
+  background-color: #1e1e2f;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: none;
+  min-height: 0;
+  height: auto;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Inputs and Text Areas */
+textarea, input[type="text"] {
+  background-color: #0d1117 !important;
+  color: #f0f6fc !important;
+  border: 1px solid #30363d !important;
+  border-radius: 6px !important;
+  font-size: 15px;
+  padding: 10px;
+}
+
+/* Button Styles */
+button {
+  background-color: #238636 !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 8px !important;
+  padding: 0.6rem 1.2rem !important;
+  border: none !important;
+  margin-top: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+button:hover {
+  background-color: #2ea043 !important;
+}
+
+/* Primary Buttons (e.g., Improve with AI) */
+button[kind="primary"] {
+  background-color: #2f81f7 !important;
+}
+
+button[kind="primary"]:hover {
+  background-color: #1f6feb !important;
+}
+
+/* Subtle Text Styling */
+small, .stMarkdown small {
+  color: #8b949e;
+}
+
+/* Markdown Section Spacing */
+.stMarkdown {
+  margin-bottom: 1rem;
+}
+
+/* Remove Unwanted Padding/Margin from Containers */
+.block-container {
+  padding: 1.5rem 2rem;
+}
+
